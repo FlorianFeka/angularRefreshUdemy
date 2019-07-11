@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -16,12 +16,20 @@ export class AppComponent {
     });
   }
 
+  onChangeFirst() {
+    this.serverElements[0].name = 'Changed!';
+  }
+
   onBlueprintAdded(blueprintData: {serverName: string, serverContent: string}) {
     this.serverElements.push({
       type: 'blueprint',
       name: blueprintData.serverName,
       content: blueprintData.serverContent
     });
+  }
+
+  onDestroyFirst() {
+    this.serverElements.splice(0,1);
   }
 
 }

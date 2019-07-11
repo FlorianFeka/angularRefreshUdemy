@@ -1,0 +1,23 @@
+<button class="btn btn-success" (click)="onStartGame()">Start Game</button>
+<button class="btn btn-danger" (click)="onStopGame()">Stop Game</button>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <p>{{counter}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="list-group">
+                <div *ngFor="let count of counterHistory">
+                    <li class="list-group-item" *ngIf="count%2===0">
+                        <app-even></app-even>
+                    </li>
+                    <li class="list-group-item" *ngIf="count%2!==0">
+                        <app-odd></app-odd>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ng4-complete-guide-shopping-list';
+  windowShoppingList = true;
+
+  onRecipeEvent() {
+    this.windowShoppingList = false;
+  }
+
+  onShoppingListEvent() {
+    this.windowShoppingList = true;
+  }
+
 }
