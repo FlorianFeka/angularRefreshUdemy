@@ -1,12 +1,11 @@
 <app-header-component
-(recipeEvent)="onRecipeEvent()"
-(shoppingListEvent)="onShoppingListEvent()"
 ></app-header-component>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <app-recipe *ngIf="!windowShoppingList"></app-recipe>
-            <app-shopping-list-component *ngIf="windowShoppingList"></app-shopping-list-component>
+            <!-- <app-recipe *ngIf="!windowShoppingList"></app-recipe>
+            <app-shopping-list-component *ngIf="windowShoppingList"></app-shopping-list-component> -->
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
