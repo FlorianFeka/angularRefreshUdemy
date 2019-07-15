@@ -7,11 +7,22 @@ export class ShoppingListService {
         new Ingredient('Apples',5),
         new Ingredient('Tomatos',10)
       ];
+      
+      startedEditing = new Subject<number>();
 
     ingredientListChanged = new Subject<void>();
 
     getIngredients() {
         return this.ingredients.slice();
+    }
+
+    getIngredient(index: number){
+        return this.ingredients[index];
+    }
+
+    updateIngredient(index: number, newIngredient: Ingredient) {
+        this.ingredients[index] = newIngredient;
+        this.ingredientListChanged.next();
     }
 
     addIngredient(ingredient: Ingredient) {
@@ -22,6 +33,11 @@ export class ShoppingListService {
     addIngredients(ingredients: Ingredient[]) {
         // this.ingredients = this.ingredients.concat(ingredients);
         this.ingredients.push(...ingredients);
+        this.ingredientListChanged.next();
+    }
+
+    deleteIngredientByIndex(index: number){
+        this.ingredients.splice(index,1);
         this.ingredientListChanged.next();
     }
 
