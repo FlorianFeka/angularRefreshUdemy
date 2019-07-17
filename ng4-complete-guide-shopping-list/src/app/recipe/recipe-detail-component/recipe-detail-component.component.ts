@@ -11,6 +11,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class RecipeDetailComponentComponent implements OnInit {
 
   @Input() recipe: Recipe;
+  id: number;
 
   constructor(private recipeService: RecipeService,
     private route: ActivatedRoute,
@@ -20,10 +21,10 @@ export class RecipeDetailComponentComponent implements OnInit {
     this.route.params.subscribe((params:Params)=>{
       if(params){
         try {
-          let id = Number(params['id']);
+          this.id = Number(params['id']);
           let recipeList = this.recipeService.getRecipes();
-          if(id<recipeList.length){
-            this.recipe = recipeList[id];
+          if(this.id<recipeList.length){
+            this.recipe = recipeList[this.id];
           }else{
             this.router.navigate(['recipes']);
           }
@@ -33,6 +34,11 @@ export class RecipeDetailComponentComponent implements OnInit {
       }
 
     })
+  }
+
+  onDelete() {
+    this.recipeService.deleteRecipeById(this.id);
+    this.router.navigate(['..'], {relativeTo:this.route});
   }
 
   onToShoppingList() {
