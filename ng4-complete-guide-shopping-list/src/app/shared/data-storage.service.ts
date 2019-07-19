@@ -4,6 +4,7 @@ import { RecipeService } from '../recipe/recipe.service';
 import { Recipe } from '../recipe/recipe.model';
 import { map, tap, take, exhaustMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
+import { Ingredient } from './ingredient.model';
 
 @Injectable({providedIn: 'root'})
 export class DataStorageService {
@@ -26,7 +27,8 @@ export class DataStorageService {
             return this.http.get<Recipe[]>(
                 'https://ng-guide-987d0.firebaseio.com/recipes.json?'
         ).pipe(map(recipe => {
-                return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []};
+                // return ({...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []});
+                return recipe;
             }), 
         tap(recipes => {
             this.recipeService.setRecipes(recipes);
