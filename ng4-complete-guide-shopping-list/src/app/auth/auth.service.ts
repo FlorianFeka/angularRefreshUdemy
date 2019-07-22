@@ -4,6 +4,9 @@ import { catchError, tap } from 'rxjs/operators';
 import { throwError, Subject, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
 import { Router, Data } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer'
+import * as AuthActions from './store/auth.actions'
 
 export interface AuthResponseData {
     kind: string,
@@ -17,13 +20,13 @@ export interface AuthResponseData {
 
 @Injectable({providedIn:'root'})
 export class AuthService {
-    user = new BehaviorSubject<User>(null);
     private tokenExpirationTimeout;
     
 
     constructor(
         private http:HttpClient,
-        private router: Router
+        private router: Router,
+        private store: Store<fromApp.AppState>
     ){}
 
 
@@ -34,51 +37,14 @@ export class AuthService {
     }
 
     logout(){
-        this.user.next(null);
-        this.router.navigate(['/auth']);
+        // this.user.next(null);
+        this.store.dispatch(new AuthActions.Logout());
         localStorage.removeItem('userData');
         if(this.tokenExpirationTimeout){
             clearTimeout(this.tokenExpirationTimeout);
         }
 
         this.tokenExpirationTimeout = null;
-    }
-
-    signin(email:string, password: string){
-        return this.http.post<AuthResponseData>(
-            'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDTTpyWa_b0W2BmVkapUIOLi84VWphT7z4',
-            {
-                email:email,
-                password: password,
-                returnSecureToken: true
-            }
-        ).pipe(catchError(this.handleError), tap(resData => {
-            this.handleAuthentication(
-                resData.email,
-                resData.localId,
-                resData.idToken,
-                +resData.expiresIn
-            );
-        }));
-    }
-
-    signup(email: string, password: string){
-        return this.http.post<AuthResponseData>(
-            'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDTTpyWa_b0W2BmVkapUIOLi84VWphT7z4',
-        {
-            email:email,
-            password: password,
-            returnSecureToken: true
-        }
-        ).pipe(catchError(this.handleError), tap(resData => {
-            this.handleAuthentication(
-                resData.email,
-                resData.localId,
-                resData.idToken,
-                +resData.expiresIn
-            );
-        })
-        );
     }
 
     autoLogin(){
@@ -100,7 +66,13 @@ export class AuthService {
         );
 
         if(loadedUser.token){
-            this.user.next(loadedUser);
+            // this.user.next(loadedUser);
+            this.store.dispatch(new AuthActions.AuthenticateSuccess({
+                email: userData.email,
+                userId: userData.id,
+                token: userData._token,
+                expirationDate: new Date(userData._tokenExpirationDate)
+            }))
             const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
             this.autoLogout(expirationDuration);
         }
@@ -116,7 +88,14 @@ export class AuthService {
             token,
             expirationDate
         );
-        this.user.next(user);
+        // this.user.next(user);
+        this.store.dispatch(new AuthActions.AuthenticateSuccess({
+            email: email,
+            userId: userId,
+            token: token,
+            expirationDate: expirationDate
+        }
+        ));
         localStorage.setItem('userData', JSON.stringify(user));
     }
 

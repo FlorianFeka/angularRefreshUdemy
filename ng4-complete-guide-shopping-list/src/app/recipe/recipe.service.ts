@@ -1,11 +1,10 @@
 import { Recipe } from './recipe.model';
 import { Injectable } from '@angular/core';
-import { ShoppingListService } from '../shopping-list-component/shopping-list.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Ingredient } from '../shared/ingredient.model';
 import * as ShoppingListActions from '../shopping-list-component/store/shopping-list.actions';
+import * as fromApp from '../store/app.reducer';
 
 @Injectable()
 export class RecipeService {
@@ -13,28 +12,12 @@ export class RecipeService {
     recipeChanged = new Subject<void>();
     recipeAdded = new Subject<number>();
 
-    constructor(private shoppingListService: ShoppingListService,
+    constructor(
         private router: Router,
-        private store: Store<{shoppingList: {ingredients: Ingredient[]}}>){}
+        private store: Store<fromApp.AppState>){}
 
 
         private recipes: Recipe[] = [];
-    // private recipes: Recipe[] = [
-    //     new Recipe('Test Recipe',
-    //     'for testing pupose',
-    //     'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg',
-    //     [
-    //         new Ingredient('Meat',1),
-    //         new Ingredient('French Fries', 30)
-    //     ]),
-    //     new Recipe('Test2 Recipe',
-    //     'for 2 testing pupose',
-    //     'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg',
-    //     [
-    //         new Ingredient('Meat',1),
-    //         new Ingredient('Buns',2)
-    //     ])
-    //   ];
 
     getRecipe(id: number) {
         return this.recipes[id];

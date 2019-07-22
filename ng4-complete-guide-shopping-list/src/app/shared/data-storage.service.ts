@@ -5,18 +5,23 @@ import { Recipe } from '../recipe/recipe.model';
 import { map, tap, take, exhaustMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { Ingredient } from './ingredient.model';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
 
 @Injectable({providedIn: 'root'})
 export class DataStorageService {
 
     constructor(private http: HttpClient,
         private recipeService: RecipeService,
-        private authService: AuthService) {}
+        private authService: AuthService,
+        private store: Store<fromApp.AppState>) {}
 
     storeRecipes() {
-        this.authService.user.pipe(take(1)).subscribe(user => {
+        // this.store.select('auth').pipe(map(state => {
+        //     return state.user;
+        // }),take(1)).subscribe(user => {
             
-        });
+        // });
         const recipes = this.recipeService.getRecipes();
         this.http.put('https://ng-guide-987d0.firebaseio.com/recipes.json',recipes).subscribe(res => {
             console.log(res);
