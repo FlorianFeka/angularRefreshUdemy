@@ -14,10 +14,10 @@ const initalState: State = {
     loading: false
 }
 
-export function authReducer(state:State = initalState, 
+export function authReducer(
+    state: State = initalState,
     action: AuthActions.AuthActions){
-    
-        switch(action.type){
+        switch (action.type) {
             case AuthActions.AUTHENTICATE_SUCCESS:
                 const user = new User(
                     action.payload.email,
@@ -32,10 +32,11 @@ export function authReducer(state:State = initalState,
                     loading: false
                 };
             case AuthActions.LOGOUT:
+                console.log('what is happening');
                 return {
                     ...state,
                     user: null
-                }
+                };
             case AuthActions.LOGIN_START:
             case AuthActions.SIGNUP_START:
                 return {
@@ -58,7 +59,5 @@ export function authReducer(state:State = initalState,
             default:
                 return state;
         }
-
-    
-    return state;
+        return state;
 }

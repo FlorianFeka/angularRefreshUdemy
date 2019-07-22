@@ -4,54 +4,59 @@ export const AUTHENTICATE_SUCCESS = '[Auth] Authenticate success';
 export const LOGOUT = '[Auth] Logout';
 export const LOGIN_START = '[Auth] Login start';
 export const AUTHENTICATE_FAIL = '[Auth] Authenticate fail';
-export const SIGNUP_START =  '[Auth] Signup start';
+export const SIGNUP_START = '[Auth] Signup start';
 export const CLEAR_ERROR = ' [Auth] Clear error';
+export const AUTO_LOGIN = '[Auth] Auto login';
 
-export class AuthenticateSuccess implements Action{
+export class AuthenticateSuccess implements Action {
     readonly type = AUTHENTICATE_SUCCESS;
 
     constructor(public payload: {
-        email:string,
-        userId:string,
-        token:string,
+        email: string,
+        userId: string,
+        token: string,
         expirationDate: Date;
-    }){}
+    }) { }
 }
 
-export class LoginStart implements Action{
+export class LoginStart implements Action {
     readonly type = LOGIN_START;
 
-    constructor(public payload: {email:string,password:string}){}
- 
+    constructor(public payload: { email: string, password: string }) { }
+
 }
 
 export class AuthenticateFail implements Action {
     readonly type = AUTHENTICATE_FAIL;
 
-    constructor(public payload){}
+    constructor(public payload) { }
 }
 
-export class Logout implements Action{
+export class Logout implements Action {
     readonly type = LOGOUT;
 }
 
-export class SignupStart implements Action{
+export class SignupStart implements Action {
     readonly type = SIGNUP_START;
     constructor(public payload: {
         email: string,
         password: string
-    }){}
+    }) { }
 }
 
-export class ClearError implements Action{
+export class ClearError implements Action {
     readonly type = CLEAR_ERROR;
-
 }
 
-export type AuthActions = 
+export class AutoLogin implements Action {
+    readonly type = AUTO_LOGIN;
+}
+
+export type AuthActions =
     | AuthenticateSuccess
     | Logout
     | LoginStart
     | AuthenticateFail
     | SignupStart
-    | ClearError;
+    | ClearError
+    | AutoLogin;

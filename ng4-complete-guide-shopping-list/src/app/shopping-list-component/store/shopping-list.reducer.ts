@@ -10,35 +10,36 @@ export interface State {
 
 const initialState: State = {
     ingredients: [
-        new Ingredient('Apples',5),
-        new Ingredient('Tomatos',10)
-      ],
+        new Ingredient('Apples', 5),
+        new Ingredient('Tomatos', 10)
+    ],
     editedIngredient: null,
     editedIngredientIndex: -1
 }
 
-export function shoppingListReducer(state: State = initialState, 
-    action: ShoppingListActions.ShoppingListActions){
-        console.log(action.type);
-        
-    switch(action.type){        
-        case ShoppingListActions.ADD_INGREDIENT: 
+export function shoppingListReducer(
+    state: State = initialState,
+    action: ShoppingListActions.ShoppingListActions) {
+    console.log(action.type);
+
+    switch (action.type) {
+        case ShoppingListActions.ADD_INGREDIENT:
             return {
-                ...state, ingredients: [...state.ingredients, action.payload] 
+                ...state, ingredients: [...state.ingredients, action.payload]
             };
         case ShoppingListActions.ADD_INGREDIENTS:
             return {
                 ...state,
                 ingredients: [...state.ingredients, ...action.payload]
             }
-        
+
         case ShoppingListActions.UPDATE_INGREDIENTS:
             const ingredient = state.ingredients[state.editedIngredientIndex];
             const updatedIngredient = {
                 ...ingredient,
                 ...action.payload
             };
-            const updatedIngredients = [ ...state.ingredients ];
+            const updatedIngredients = [...state.ingredients];
             updatedIngredients[state.editedIngredientIndex] = updatedIngredient;
 
             return {
@@ -47,28 +48,28 @@ export function shoppingListReducer(state: State = initialState,
                 editedIngredientIndex: -1,
                 editedIngredient: null
             };
-        
+
         case ShoppingListActions.DELETE_INGREDIENTS:
             return {
                 ...state,
                 ingredients: state.ingredients.filter((ig, igIndex) => {
-                    
-                    if(igIndex !== state.editedIngredientIndex){
+
+                    if (igIndex !== state.editedIngredientIndex) {
                         return true;
-                    }else{
+                    } else {
                         return false;
                     }
                 }),
                 editedIngredientIndex: -1,
                 editedIngredient: null
             }
-        
+
         case ShoppingListActions.START_EDIT:
 
             return {
                 ...state,
                 editedIngredientIndex: action.payload,
-                editedIngredient: {...state.ingredients[action.payload]}
+                editedIngredient: { ...state.ingredients[action.payload] }
             };
         case ShoppingListActions.STOP_EDIT:
             return {
