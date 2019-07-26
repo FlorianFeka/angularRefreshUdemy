@@ -1,6 +1,5 @@
 import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
-import { StateObservable } from '@ngrx/store';
 
 export interface State {
     ingredients: Ingredient[];
@@ -15,13 +14,11 @@ const initialState: State = {
     ],
     editedIngredient: null,
     editedIngredientIndex: -1
-}
+};
 
 export function shoppingListReducer(
     state: State = initialState,
     action: ShoppingListActions.ShoppingListActions) {
-    console.log(action.type);
-
     switch (action.type) {
         case ShoppingListActions.ADD_INGREDIENT:
             return {
@@ -31,7 +28,7 @@ export function shoppingListReducer(
             return {
                 ...state,
                 ingredients: [...state.ingredients, ...action.payload]
-            }
+            };
 
         case ShoppingListActions.UPDATE_INGREDIENTS:
             const ingredient = state.ingredients[state.editedIngredientIndex];
@@ -62,7 +59,7 @@ export function shoppingListReducer(
                 }),
                 editedIngredientIndex: -1,
                 editedIngredient: null
-            }
+            };
 
         case ShoppingListActions.START_EDIT:
 

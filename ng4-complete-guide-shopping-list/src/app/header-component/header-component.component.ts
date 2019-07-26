@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import { map } from 'rxjs/operators';
-import * as AuthActions  from '../auth/store/auth.actions';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header-component',
@@ -17,15 +17,16 @@ export class HeaderComponentComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
 
 
-  constructor(private dataStorageService: DataStorageService,
+  constructor(
+    private dataStorageService: DataStorageService,
     private authService: AuthService,
     private store: Store<fromApp.AppState>) { }
 
   onSaveData() {
     this.dataStorageService.storeRecipes();
   }
-  
-  onLogout(){
+
+  onLogout() {
     this.store.dispatch(new AuthActions.Logout());
   }
 
@@ -38,9 +39,7 @@ export class HeaderComponentComponent implements OnInit, OnDestroy {
       return state.user;
     })).subscribe(user => {
       this.isAuthenticated = !!user;
-      
-    })
-
+    });
   }
 
   ngOnDestroy() {

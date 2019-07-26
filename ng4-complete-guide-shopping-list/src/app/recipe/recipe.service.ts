@@ -47,11 +47,10 @@ export class RecipeService {
         this.recipeChanged.next();
         // let length: number = this.recipes.push(recipe)-1;
         // console.log(this.recipes);
-        
         // this.recipeAdded.next(length);
     }
-    
-    updateRecipe(index:number, recipe: Recipe){
+
+    updateRecipe(index: number, recipe: Recipe){
         this.recipes[index] = recipe;
         this.recipeChanged.next();
     }

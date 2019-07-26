@@ -2,7 +2,7 @@ import { User } from '../user.model';
 import * as AuthActions from './auth.actions';
 import { AUTHENTICATE_SUCCESS, AUTHENTICATE_FAIL, CLEAR_ERROR } from './auth.actions';
 
-export interface State{
+export interface State {
     user: User;
     authError: string;
     loading: boolean;
@@ -12,11 +12,11 @@ const initalState: State = {
     user: null,
     authError: null,
     loading: false
-}
+};
 
 export function authReducer(
     state: State = initalState,
-    action: AuthActions.AuthActions){
+    action: AuthActions.AuthActions) {
         switch (action.type) {
             case AuthActions.AUTHENTICATE_SUCCESS:
                 const user = new User(
@@ -32,7 +32,6 @@ export function authReducer(
                     loading: false
                 };
             case AuthActions.LOGOUT:
-                console.log('what is happening');
                 return {
                     ...state,
                     user: null
@@ -50,12 +49,12 @@ export function authReducer(
                     user: null,
                     authError: action.payload,
                     loading: false
-                }
+                };
             case AuthActions.CLEAR_ERROR:
                 return {
                     ...state,
                     authError: null
-                }
+                };
             default:
                 return state;
         }

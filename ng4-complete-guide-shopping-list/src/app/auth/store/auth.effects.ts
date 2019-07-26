@@ -96,7 +96,7 @@ export class AuthEffects {
                 }
             ).pipe(
                 tap((resData) => {
-                    this.authService.setLogoutTimer(+resData.expiresIn);
+                    this.authService.setLogoutTimer(+resData.expiresIn * 1000);
                 }),
                 map((resData) => {
                     return handleAuthetications(
@@ -153,7 +153,7 @@ export class AuthEffects {
         this.router.navigate(['/']);
     }));
 
-    @Effect()
+    @Effect({ dispatch: false })
     authLogout = this.actions$.pipe(ofType(AuthActions.LOGOUT), tap(() => {
         this.authService.clearLogoutTimer();
         localStorage.removeItem('userData');
